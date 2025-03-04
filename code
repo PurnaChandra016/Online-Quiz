@@ -1,0 +1,107 @@
+HTML (index.html)
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Online Quiz</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="quiz">
+    <h1>Online Quiz</h1>
+    <div id="quizContainer"></div>
+    <button onclick="submitQuiz()">Submit</button>
+    <div id="result"></div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
+Run HTML
+CSS (styles.css)
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 20px;
+}
+
+.quiz {
+  max-width: 600px;
+  margin: 0 auto;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  text-align: center;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  margin-top: 20px;
+  width: 100%;
+}
+
+#result {
+  margin-top: 20px;
+  font-size: 20px;
+  text-align: center;
+}
+
+JavaScript (script.js)
+
+const quizData = [
+  {
+    question: "What is the capital of France?",
+    options: ["Paris", "London", "Berlin", "Madrid"],
+    answer: "Paris",
+  },
+  {
+    question: "Which planet is known as the Red Planet?",
+    options: ["Earth", "Mars", "Jupiter", "Saturn"],
+    answer: "Mars",
+  },
+  {
+    question: "What is 2 + 2?",
+    options: ["3", "4", "5", "6"],
+    answer: "4",
+  },
+];
+
+function renderQuiz() {
+  const quizContainer = document.getElementById("quizContainer");
+  quizContainer.innerHTML = "";
+
+  quizData.forEach((question, index) => {
+    const questionDiv = document.createElement("div");
+    questionDiv.innerHTML = `<h3>${index + 1}. ${question.question}</h3>`;
+    question.options.forEach((option) => {
+      questionDiv.innerHTML += `
+        <label>
+          <input type="radio" name="question${index}" value="${option}">
+          ${option}
+        </label><br>
+      `;
+    });
+    quizContainer.appendChild(questionDiv);
+  });
+}
+
+function submitQuiz() {
+  let score = 0;
+  quizData.forEach((question, index) => {
+    const selectedOption = document.querySelector(`input[name="question${index}"]:checked`);
+    if (selectedOption && selectedOption.value === question.answer) {
+      score++;
+    }
+  });
+  document.getElementById("result").innerHTML = `Your score is ${score} out of ${quizData.length}`;
+}
+
+renderQuiz();
